@@ -1,0 +1,52 @@
+version: '3.4'
+
+networks:
+  zabbix_net:
+    driver: bridge
+
+volumes:
+  db-data:
+
+
+services:
+  db:
+    image: postgres
+    container_name: db
+    environment:
+      POSTGRES_DB: tech-challenge
+      POSTGRES_USER: tech-challenge
+      POSTGRES_PASSWORD: tech-challenge
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - zabbix_net
+
+  webapi:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 7296:7296
+    depends_on:
+      - db
+    networks:
+      - zabbix_net
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus_grafprom
+    restart: always
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+    networks:
+      - zabbix_net
+
+  grafana:
+    image: grafana/grafana:7.2.1
+    ports:
+      - "3000:3000"
+    networks:
+      - zabbix_net
