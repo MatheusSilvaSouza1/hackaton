@@ -70,4 +70,37 @@ public class UsuarioController : ControllerBase
             return BadRequest($"Ocorreu um erro: {ex.Message}");
         }
     }
+    [HttpGet("GetConsultasById/{idUsuario}")]
+    public async Task<IActionResult> GetConsultasById(int idUsuario)
+    {
+        try
+        {
+            var consultas = await _consultaService.GetConsultasPorUsuarioAsync(idUsuario);
+            if (consultas == null || !consultas.Any())
+                return BadRequest("Nenhuma consulta encontrada para este usuário.");
+
+            return Ok(consultas);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpPut("CancelarConsulta/{idConsulta}")]
+    public async Task<IActionResult> CancelarConsulta(int idConsulta, [FromBody] string justificativa)
+    {
+        try
+        {
+            var resultado = await _consultaService.CancelarConsultaAsync(idConsulta, justificativa);
+            if (resultado)
+                return Ok("Consulta cancelada com sucesso.");
+            else
+                return NotFound("Consulta não encontrada ou já cancelada.");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
 }

@@ -12,4 +12,8 @@ public class Consulta
     
     [JsonIgnore]
     public bool? IsAceita {  get; set; }
+    [JsonIgnore]
+    public bool? IsCancelada { get; set; }
+    [JsonIgnore]
+    public string? Justificativa { get; set; }
 }

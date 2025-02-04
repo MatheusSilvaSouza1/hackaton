@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infra.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20250204032053_MedicosAndPacientes1")]
+    [Migration("20250204182241_MedicosAndPacientes1")]
     partial class MedicosAndPacientes1
     {
         /// <inheritdoc />
@@ -45,6 +45,12 @@ namespace Infra.Migrations
 
                     b.Property<bool?>("IsAceita")
                         .HasColumnType("boolean");
+
+                    b.Property<bool?>("IsCancelada")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Justificativa")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

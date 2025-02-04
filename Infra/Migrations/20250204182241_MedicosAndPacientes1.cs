@@ -21,7 +21,9 @@ namespace Infra.Migrations
                     IdMedico = table.Column<int>(type: "integer", nullable: false),
                     IdPaciente = table.Column<int>(type: "integer", nullable: false),
                     IdHorarioDisponivel = table.Column<int>(type: "integer", nullable: false),
-                    IsAceita = table.Column<bool>(type: "boolean", nullable: true)
+                    IsAceita = table.Column<bool>(type: "boolean", nullable: true),
+                    IsCancelada = table.Column<bool>(type: "boolean", nullable: true),
+                    Justificativa = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {

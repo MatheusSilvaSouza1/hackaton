@@ -8,11 +8,12 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class MedicoController(IMedicoServices medicoServices, IHorarioDisponivelService horarioDisponivelService) : ControllerBase
+public class MedicoController(IMedicoServices medicoServices, IHorarioDisponivelService horarioDisponivelService, IConsultaService consultaService) : ControllerBase
 {
     private readonly IMedicoServices _medicoServices = medicoServices;
     private readonly IHorarioDisponivelService _horarioDisponivelService = horarioDisponivelService;
-        
+    private readonly IConsultaService _consultaService = consultaService;
+
     [HttpPost("AdicionarHorario")]
     public async Task<IActionResult> AdicionarHorario(HorarioDisponivel horario)
     {
@@ -22,6 +23,38 @@ public class MedicoController(IMedicoServices medicoServices, IHorarioDisponivel
             if (result)
                 return Ok(result);
             else return BadRequest("Horário já cadastrado para o medico");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpPut("EditarHorario/{id}")]
+    public async Task<IActionResult> EditarHorario(int id, [FromBody] HorarioDisponivelDto horario)
+    {
+        try
+        {
+            var result = await _horarioDisponivelService.EditarHorarioAsync(id, horario);
+            if (result)
+                return Ok("Horário atualizado com sucesso.");
+            else
+                return BadRequest("Horário não encontrado ou já existente.");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpPut("SetarStatusConsulta/{idConsulta}")]
+    public async Task<IActionResult> SetarStatusConsulta(int idConsulta, [FromQuery] bool isAceita)
+    {
+        try
+        {
+            var resultado = await _consultaService.SetarStatusConsultaAsync(idConsulta, isAceita);
+            if (resultado)
+                return Ok("Status da consulta atualizado com sucesso.");
+            else
+                return BadRequest("Consulta não encontrada ou Já existe uma consulta para o médico no mesmo horário.");
         }
         catch (Exception ex)
         {

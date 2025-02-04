@@ -43,6 +43,12 @@ namespace Infra.Migrations
                     b.Property<bool?>("IsAceita")
                         .HasColumnType("boolean");
 
+                    b.Property<bool?>("IsCancelada")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Justificativa")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("Consultas");
