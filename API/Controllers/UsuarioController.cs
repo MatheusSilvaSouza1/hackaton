@@ -2,6 +2,7 @@ using Application.Services;
 using Domain;
 using Domain.Repositories;
 using Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -22,6 +23,7 @@ public class UsuarioController : ControllerBase
     }
 
     [HttpGet("ConsultarMedicosPorEspecialidade")]
+    [Authorize(Roles = PermissionSystem.User)]
     public async Task<IActionResult> ConsultarMedicosPorEspecialidade(string? especialidade)
     {
         try
@@ -37,6 +39,7 @@ public class UsuarioController : ControllerBase
     }
 
     [HttpPost("CriarConsulta")]
+    [Authorize(Roles = PermissionSystem.User)]
     public async Task<IActionResult> CriarConsulta(Consulta consulta)
     {
         try
@@ -54,6 +57,7 @@ public class UsuarioController : ControllerBase
     }
 
     [HttpGet("horarios/{idMedico}")]
+    [Authorize(Roles = PermissionSystem.User)]
     public async Task<IActionResult> GetHorariosPorMedico(int idMedico)
     {
         try
@@ -71,6 +75,7 @@ public class UsuarioController : ControllerBase
         }
     }
     [HttpGet("GetConsultasById/{idUsuario}")]
+    [Authorize(Roles = PermissionSystem.User)]
     public async Task<IActionResult> GetConsultasById(int idUsuario)
     {
         try
@@ -87,6 +92,7 @@ public class UsuarioController : ControllerBase
         }
     }
     [HttpPut("CancelarConsulta/{idConsulta}")]
+    [Authorize(Roles = PermissionSystem.User)]
     public async Task<IActionResult> CancelarConsulta(int idConsulta, [FromBody] string justificativa)
     {
         try

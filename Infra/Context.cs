@@ -16,6 +16,7 @@ namespace Infra
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(Context).Assembly);
         }
 
+        public virtual DbSet<Login> Login => Set<Login>();
         public virtual DbSet<Medico> Medicos => Set<Medico>();
         public virtual DbSet<Usuario> Usuarios => Set<Usuario>();
         public virtual DbSet<Consulta> Consultas => Set<Consulta>();

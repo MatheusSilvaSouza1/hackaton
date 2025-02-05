@@ -2,6 +2,7 @@ using Application.Services;
 using Domain;
 using Domain.Repositories;
 using Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -15,6 +16,7 @@ public class MedicoController(IMedicoServices medicoServices, IHorarioDisponivel
     private readonly IConsultaService _consultaService = consultaService;
 
     [HttpPost("AdicionarHorario")]
+    [Authorize(Roles = PermissionSystem.Doctor)]
     public async Task<IActionResult> AdicionarHorario(HorarioDisponivel horario)
     {
         try
@@ -30,6 +32,7 @@ public class MedicoController(IMedicoServices medicoServices, IHorarioDisponivel
         }
     }
     [HttpPut("EditarHorario/{id}")]
+    [Authorize(Roles = PermissionSystem.Doctor)]
     public async Task<IActionResult> EditarHorario(int id, [FromBody] HorarioDisponivelDto horario)
     {
         try
@@ -46,6 +49,7 @@ public class MedicoController(IMedicoServices medicoServices, IHorarioDisponivel
         }
     }
     [HttpPut("SetarStatusConsulta/{idConsulta}")]
+    [Authorize(Roles = PermissionSystem.Doctor)]
     public async Task<IActionResult> SetarStatusConsulta(int idConsulta, [FromQuery] bool isAceita)
     {
         try
