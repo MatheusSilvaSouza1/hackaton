@@ -30,43 +30,5 @@ public class LoginController(ILoginService loginService) : ControllerBase
         {
             return BadRequest(ex.Message);
         }
-    }
-    
-    [HttpPost("CreateMedico")]
-    [Produces("application/json")]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> CreateMedico([FromBody] LoginDto loginDto)
-    {
-        try
-        {
-            await _loginService.CreateMedico(loginDto);
-
-            return Ok();
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-    
-    [HttpPost("CreatePaciente")]
-    [Produces("application/json")]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> CreatePaciente([FromBody] LoginDto loginDto)
-    {
-        try
-        {
-            await _loginService.CreatePaciente(loginDto);
-
-            return Ok();
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
+    }                
 }

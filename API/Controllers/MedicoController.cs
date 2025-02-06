@@ -1,9 +1,9 @@
 using Application.Services;
 using Domain;
-using Domain.Repositories;
 using Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace API.Controllers;
 
@@ -14,6 +14,26 @@ public class MedicoController(IMedicoServices medicoServices, IHorarioDisponivel
     private readonly IMedicoServices _medicoServices = medicoServices;
     private readonly IHorarioDisponivelService _horarioDisponivelService = horarioDisponivelService;
     private readonly IConsultaService _consultaService = consultaService;
+
+
+    [HttpPost("CreateMedico")]
+    [Produces("application/json")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> CreateMedico([FromBody] MedicoDto loginDto)
+    {
+        try
+        {
+            await _medicoServices.CreateMedico(loginDto);
+
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 
     [HttpPost("AdicionarHorario")]
     [Authorize(Roles = PermissionSystem.Doctor)]

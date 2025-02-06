@@ -4,6 +4,7 @@ using Domain.Repositories;
 using Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace API.Controllers;
 
@@ -11,15 +12,36 @@ namespace API.Controllers;
 [Route("[controller]")]
 public class UsuarioController : ControllerBase
 {
+    private readonly IUserService _userService;
     private readonly IMedicoServices _medicoServices;
     private readonly IHorarioDisponivelService _horarioDisponivelService;
     private readonly IConsultaService _consultaService;
 
-    public UsuarioController(IMedicoServices medicoServices, IHorarioDisponivelService horarioDisponivelService, IConsultaService consultaService)
+    public UsuarioController(IMedicoServices medicoServices, IHorarioDisponivelService horarioDisponivelService, IConsultaService consultaService, IUserService userService)
     {
         _medicoServices = medicoServices;
         _horarioDisponivelService = horarioDisponivelService;
         _consultaService = consultaService;
+        _userService = userService;
+    }
+
+    [HttpPost("CreatePaciente")]
+    [Produces("application/json")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> CreatePaciente([FromBody] UserDto userDto)
+    {
+        try
+        {
+            await _userService.Create(userDto);
+
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpGet("ConsultarMedicosPorEspecialidade")]

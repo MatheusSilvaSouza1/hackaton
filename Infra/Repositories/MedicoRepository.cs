@@ -8,6 +8,12 @@ namespace Infra.Repositories
     {
         private readonly Context _context = context;
 
+        public async Task AddAsync(Medico medico)
+        {
+            await _context.Medicos.AddAsync(medico);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Medico>> GetMedicosPorEspecialidade(string especialidade)
         {
             if (string.IsNullOrWhiteSpace(especialidade))
