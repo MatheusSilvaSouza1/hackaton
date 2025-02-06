@@ -18,11 +18,13 @@ public class LoginController(ILoginService loginService) : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> GetTokenMedico([FromBody] Domain.LoginDto loginDto)
+    public async Task<IActionResult> GetToken([FromBody] LoginDto loginDto)
     {
         try
         {
-            var tokenGenerated = await _loginService.GetTokenMedico(loginDto);
+            var tokenGenerated = loginDto.TypeAccess == TypeAccess.User ?
+                await _loginService.GetTokenPaciente(loginDto) :
+                await _loginService.GetTokenMedico(loginDto);
 
             return string.IsNullOrEmpty(tokenGenerated) ? Unauthorized() : Ok(tokenGenerated);
         }
@@ -30,5 +32,5 @@ public class LoginController(ILoginService loginService) : ControllerBase
         {
             return BadRequest(ex.Message);
         }
-    }                
+    }
 }

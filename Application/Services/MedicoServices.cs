@@ -7,13 +7,14 @@ public class MedicoServices(IMedicoRepository medicoRepository) : IMedicoService
 {
     private readonly IMedicoRepository _medicosRepository = medicoRepository;
 
-    public async Task CreateMedico(MedicoDto loginDto)
+    public async Task CreateMedico(MedicoDto medicoDto)
     {
         await _medicosRepository.AddAsync(new Medico
         {
-            Crm = loginDto.Crm,
-            Especialidade = loginDto.Especialidade,
-            Senha = loginDto.Senha,
+            Crm = medicoDto.Crm,
+            Especialidade = medicoDto.Especialidade,
+            Senha = medicoDto.Senha,
+            Nome = medicoDto.Nome
         });
     }
 

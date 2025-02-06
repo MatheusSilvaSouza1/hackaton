@@ -14,6 +14,11 @@ namespace Infra.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<Medico> GetMedicoByUsernameAndPassword(string username, string password)
+        {
+            return await _context.Medicos.Where(property => property.Crm == username && property.Senha == password).FirstAsync();
+        }
+
         public async Task<List<Medico>> GetMedicosPorEspecialidade(string especialidade)
         {
             if (string.IsNullOrWhiteSpace(especialidade))

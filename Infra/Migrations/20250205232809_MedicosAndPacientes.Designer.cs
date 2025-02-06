@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infra.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20250205023622_NewTableLogin")]
-    partial class NewTableLogin
+    [Migration("20250205232809_MedicosAndPacientes")]
+    partial class MedicosAndPacientes
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -30,7 +30,7 @@ public class UsuarioController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> CreatePaciente([FromBody] UserDto userDto)
+    public async Task<IActionResult> CreateMedico([FromBody] UserDto userDto)
     {
         try
         {
@@ -44,25 +44,9 @@ public class UsuarioController : ControllerBase
         }
     }
 
-    [HttpGet("ConsultarMedicosPorEspecialidade")]
-    [Authorize(Roles = PermissionSystem.User)]
-    public async Task<IActionResult> ConsultarMedicosPorEspecialidade(string? especialidade)
-    {
-        try
-        {
-            var result = await _medicoServices.GetMedicosPorEspecialidade(especialidade);
-
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-
     [HttpPost("CriarConsulta")]
     [Authorize(Roles = PermissionSystem.User)]
-    public async Task<IActionResult> CriarConsulta(Consulta consulta)
+    public async Task<IActionResult> CriarConsulta(ConsultaDTO consulta)
     {
         try
         {
@@ -130,5 +114,4 @@ public class UsuarioController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
 }

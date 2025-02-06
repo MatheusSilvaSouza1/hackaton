@@ -15,7 +15,7 @@ namespace Application.Services
             _horarioDisponivelRepository = horarioDisponivelRepository;
         }
 
-        public async Task<bool> CriarConsultaAsync(Consulta consulta)
+        public async Task<bool> CriarConsultaAsync(ConsultaDTO consulta)
         {
             
             var horariosDisponiveis = await _horarioDisponivelRepository.GetHorariosPorMedicoAsync(consulta.IdMedico);
@@ -27,10 +27,15 @@ namespace Application.Services
             
             var consultaExistente = await _consultaRepository.GetConsultaByHorarioAsync(consulta.IdMedico, consulta.IdHorarioDisponivel);
             if (consultaExistente != null)
-                return false; 
+                return false;
 
-            
-            await _consultaRepository.AddAsync(consulta);
+            Consulta consultaToAdd = new Consulta(
+                consulta.IdMedico,
+                consulta.IdPaciente,
+                consulta.IdHorarioDisponivel
+                );
+
+            await _consultaRepository.AddAsync(consultaToAdd);
             return true;
         }
         public async Task<bool> SetarStatusConsultaAsync(int idConsulta, bool isAceita)
