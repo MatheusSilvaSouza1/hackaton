@@ -14,33 +14,18 @@ public class UsuarioController : ControllerBase
     private readonly IMedicoServices _medicoServices;
     private readonly IHorarioDisponivelService _horarioDisponivelService;
     private readonly IConsultaService _consultaService;
+    
 
     public UsuarioController(IMedicoServices medicoServices, IHorarioDisponivelService horarioDisponivelService, IConsultaService consultaService)
     {
         _medicoServices = medicoServices;
         _horarioDisponivelService = horarioDisponivelService;
         _consultaService = consultaService;
-    }
-
-    [HttpGet("ConsultarMedicosPorEspecialidade")]
-    [Authorize(Roles = PermissionSystem.User)]
-    public async Task<IActionResult> ConsultarMedicosPorEspecialidade(string? especialidade)
-    {
-        try
-        {
-            var result = await _medicoServices.GetMedicosPorEspecialidade(especialidade);
-
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
+    }    
 
     [HttpPost("CriarConsulta")]
     [Authorize(Roles = PermissionSystem.User)]
-    public async Task<IActionResult> CriarConsulta(Consulta consulta)
+    public async Task<IActionResult> CriarConsulta(ConsultaDTO consulta)
     {
         try
         {
@@ -108,5 +93,4 @@ public class UsuarioController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
 }

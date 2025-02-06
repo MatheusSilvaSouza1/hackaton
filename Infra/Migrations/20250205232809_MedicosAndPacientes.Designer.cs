@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infra.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20250204182241_MedicosAndPacientes1")]
-    partial class MedicosAndPacientes1
+    [Migration("20250205232809_MedicosAndPacientes")]
+    partial class MedicosAndPacientes
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,6 +77,30 @@ namespace Infra.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("HorarioDisponiveis");
+                });
+
+            modelBuilder.Entity("Domain.Login", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("TypeAccess")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Login");
                 });
 
             modelBuilder.Entity("Domain.Medico", b =>

@@ -65,4 +65,19 @@ public class MedicoController(IMedicoServices medicoServices, IHorarioDisponivel
             return BadRequest(ex.Message);
         }
     }
+    [HttpGet("ConsultarMedicosPorEspecialidade")]
+    [Authorize(Roles = PermissionSystem.User)]
+    public async Task<IActionResult> ConsultarMedicosPorEspecialidade(string? especialidade)
+    {
+        try
+        {
+            var result = await _medicoServices.GetMedicosPorEspecialidade(especialidade);
+
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }
