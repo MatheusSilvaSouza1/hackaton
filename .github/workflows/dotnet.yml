@@ -5,22 +5,11 @@ name: .NET
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "develop", "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    services: 
-      postgres:
-        image: postgres:latest
-        env:
-          POSTGRES_USER: tech-challenge
-          POSTGRES_PASSWORD: tech-challenge
-          POSTGRES_DB: tech-challenge
-        ports:
-          - 5432:5432
-        options: > 
-          --health-cmd="pg_isready -U tech-challenge"
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
@@ -47,5 +36,5 @@ jobs:
       uses: docker/build-push-action@v5.4.0
       with:
         context: .
-        tags: 'escorpion559/tech-challenge:latest'
+        tags: 'escorpion559/hackaton:latest'
         push: true
